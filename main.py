@@ -26,7 +26,7 @@ def main():
 
                 vault.new_item_console(input(), configs)
             case '2':
-                vault.print_all_item()
+                vault.print_all_items()
             case '3':
                 vault.print_password_console()
             case 'exit':
