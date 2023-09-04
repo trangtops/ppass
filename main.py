@@ -7,7 +7,7 @@ def main():
         "is_letter": True,
         "is_digits": True,
         "is_special_chars": True,
-        "password_length": 14
+        "length": 14
         }
 
     while True:
