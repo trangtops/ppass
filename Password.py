@@ -187,24 +187,39 @@ class Password:
         
         print("invalid length, use default value")
         '''
+        letters = ''
+        digits = ''
+        special_chars = ''
+        letters_num = configs.get('letter', 0)
+        digits_num = configs.get("digits", 0)
+        special_chars_num = configs.get("special_chars", 0) 
         try:
             length = int(configs['length'])
         except Exception as e:
             logging.debug(e)
             logging.error('input password length is invalld')
             raise
-
-        if configs["is_letter"]:
+        if  letters_num > -1:
             letters = string.ascii_letters
-        if configs["is_digits"]:
+        if digits_num > -1:
             digits = string.digits
-        if configs["is_special_chars"]:
+        if special_chars_num > -1:
             special_chars = string.punctuation
         alphabet = letters + digits + special_chars
-          
-        password = ''
-        for i in range(length):
-            password += ''.join(secrets.choice(alphabet)) 
+        
+        if not alphabet:
+            print('no char has been specify')
+            return
+
+        while True:
+            password = ''
+            for i in range(length):
+                password += ''.join(secrets.choice(alphabet)) 
+
+            if (sum(char in special_chars for char in password) >= special_chars_num and 
+                sum(char in digits for char in password) >= digits_num and 
+                sum(char in letters for char in password) >= letters_num):
+                break
         self.password = password
 
 class UserLogin(Password):

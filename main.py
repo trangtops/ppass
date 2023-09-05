@@ -4,9 +4,9 @@ import Password
 def main():
     vault = Password.Vault()
     configs = {
-        "is_letter": True,
-        "is_digits": True,
-        "is_special_chars": True,
+        "letter": 2,
+        "digits": 2,
+        "special_chars": 2,
         "length": 14
         }
 
