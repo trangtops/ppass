@@ -29,12 +29,31 @@ class Vault:
             print("item #{}".format(i+1))
             print("{}: {}".format(self.vault[i].name, self.vault[i].type))
             print()
+    
+    def print_item_console(self):
+        hide_key = ['password']
+        self.print_all_name()
+        print('Please select item: ', end='')
+        item_index = int(input())-1
+        
+        try:
+            item_detail = self.vault[int(item_index)].__dict__
+        except exception as e:
+            logging.debug(e)
+            logging.error('index is invalid')
+
+        for key in item_detail:
+            if key not in hide_key:
+                print('{}: {}'.format(key, item_detail[key]))
+        print()
+
 
     def print_all_name(self):
         total_item = len(self.vault)
         for i in range(total_item):
-            print("item #{}: {}".format(i+1, self.vault[i]['name']))
-             
+            print("item #{}: {}".format(i+1, self.vault[i].name))
+        print()     
+
     def print_password_console(self):
         self.print_all_items()
         print("select which item: ", end='')
@@ -56,13 +75,26 @@ class Vault:
             except:
                 print('cannot perform item delete')
     
-    def renew_password_console(self):
+    def renew_password_console(self, configs):
+        try:
+            print('input password length: ', end='')
+            configs['length'] = int(input())
+        except Exception as e:
+            logger.error('password length not valid')
+            logeer.debug(e)
+            return
+
         self.print_all_name()
         print("select which item: ", end='')
+        
         try:
-            self.vault[int(input())-1].password = self.generate_password()
+            index = int(input())-1
+            
+            self.vault[index].generate_password(configs)
         except Exception as e:
             print("cannot update password: {}".format(e)) 
+            return 
+        print('password has been generaated')
 
     def save_json(self):
         save_list = []
@@ -88,7 +120,8 @@ class Password:
         self.item = {}
         self.password = ''
         self.type = ""
-
+        self.description = ''
+        self.tags = []
 
     def load_config(config):
         self.letters = ''
@@ -142,8 +175,10 @@ class Password:
             special_chars = string.punctuation
         alphabet = letters + digits + special_chars
           
+        password = ''
         for i in range(length):
-            self.password += ''.join(secrets.choice(alphabet)) 
+            password += ''.join(secrets.choice(alphabet)) 
+        self.password = password
 
 class UserLogin(Password):
     def __init__(self):

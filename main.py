@@ -14,21 +14,30 @@ def main():
         print("Please choose item\n \
             1) add new item\n \
             2) list all item\n \
-            3) get password\n \
+            3) get item\n \
+            4) get password\n \
+            5) renew password\n \
+            6) delete item\n \
             exit")
         ans = input()
         match ans:
             case '1':
                 print("input password length")
-                configs['password_length'] = input()
+                configs['length'] = input()
                 print("which input item type")
                 print("#userlogin\n#passcode")
 
                 vault.new_item_console(input(), configs)
             case '2':
-                vault.print_all_items()
+                vault.print_all_name()
             case '3':
+                vault.print_item_console() 
+            case '4':
                 vault.print_password_console()
+            case '5':
+                vault.renew_password_console(configs)
+            case '6':
+                vault.delete_item_console()
             case 'exit':
                 vault.save_json()
                 break
