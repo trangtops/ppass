@@ -17,7 +17,8 @@ def main():
             3) get item\n \
             4) get password\n \
             5) renew password\n \
-            6) delete item\n \
+            6) update item\n \
+            7) delete item\n \
             exit")
         ans = input()
         match ans:
@@ -37,6 +38,8 @@ def main():
             case '5':
                 vault.renew_password_console(configs)
             case '6':
+                vault.update_item_console()
+            case '7':
                 vault.delete_item_console()
             case 'exit':
                 vault.save_json()

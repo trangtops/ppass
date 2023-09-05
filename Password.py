@@ -36,16 +36,44 @@ class Vault:
         print('Please select item: ', end='')
         item_index = int(input())-1
         
+        self.print_item(item_index)
+        
+    def print_item(self, item_index):
+        hide_key = ['password']
+        item = self.vault[item_index].__dict__
+
         try:
-            item_detail = self.vault[int(item_index)].__dict__
-        except exception as e:
+            for key in item:
+                if key not in hide_key:
+                    print('{}: {}'.format(key, item[key]))
+        except Exception as e:
             logging.debug(e)
             logging.error('index is invalid')
-
-        for key in item_detail:
-            if key not in hide_key:
-                print('{}: {}'.format(key, item_detail[key]))
         print()
+
+
+    def update_item_console(self):
+        self.print_all_items()
+        print('Please select item: ', end='')
+        try:
+            item_index = int(input())-1
+            if item_index < 0 and item_index > len(self.vault)-1:
+                raise
+        except Exception as e:
+            logger.debug(e)
+            logger.error('item index is invalid')
+        self.print_item(item_index)
+        print('select value to update: ', end='')
+        update_key = input()
+
+        if hasattr(self.vault[item_index], update_key):
+            print('input new value: ')
+            setattr(self.vault[item_index], update_key, input()) 
+        else:
+            print('key not exist')
+
+        print('item has been update')
+
 
 
     def print_all_name(self):
@@ -117,7 +145,6 @@ class Vault:
 
 class Password:
     def __init__(self):
-        self.item = {}
         self.password = ''
         self.type = ""
         self.description = ''
