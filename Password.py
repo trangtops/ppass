@@ -24,7 +24,6 @@ class Vault:
 
     def print_all_items(self):
         total_item = len(self.vault)
-        print(self.vault)
         for i in range(total_item):
             print("item #{}".format(i+1))
             print("{}: {}".format(self.vault[i].name, self.vault[i].type))
@@ -53,7 +52,7 @@ class Vault:
 
 
     def update_item_console(self):
-        self.print_all_items()
+        self.print_all_name()
         print('Please select item: ', end='')
         try:
             item_index = int(input())-1
@@ -79,11 +78,11 @@ class Vault:
     def print_all_name(self):
         total_item = len(self.vault)
         for i in range(total_item):
-            print("item #{}: {}".format(i+1, self.vault[i].name))
+            print("{}# {}: {}".format(i+1, self.vault[i].name, self.vault[i].description))
         print()     
 
     def print_password_console(self):
-        self.print_all_items()
+        self.print_all_name()
         print("select which item: ", end='')
         try:
             print(self.vault[int(input())-1].password)
